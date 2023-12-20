@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>TAG GENERATOR (TWO ARTIST)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
+  <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Press Start 2P';
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #fff;
+      text-align: center;
+    }
+
+    h1,
+    h2 {
+      color: #61dafb;
+      padding: 40px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    label,
+    input {
+      margin: 10px 0;
+      width: 80%;
+      max-width: 300px;
+    }
+
+    input[type="text"] {
+      height: 30px;
+      padding: 5px;
+      font-size: 18px;
+      background-color: #444;
+      color: #fff;
+      border: 1px solid #61dafb;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    #replace-btn,
+    #copy-btn {
+      width: 80%;
+      max-width: 200px;
+      height: 40px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      background-color: #61dafb;
+      color: #fff;
+    }
+
+    #output {
+      margin-top: 40px;
+      font-size: 18px;
+      white-space: pre-line;
+      overflow-wrap: break-word;
+      background-color: #333;
+      padding: 20px;
+      border: 1px solid #61dafb;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      width: 80%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    img {
+      width: 50px;
+      margin: 0 auto;
+      text-align: center;
+      display: block;
+      padding: 10px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+      input[type="text"],
+      #replace-btn,
+      #copy-btn,
+      #output {
+        width: 90%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>TAG GENERATOR (TWO ARTIST)</h1>
+  <form>
+    <label for="input1">ARTIST 1</label>
+    <input type="text" id="input1" name="input1"><br>
+
+    <label for="input2">ARTIST 2</label>
+    <input type="text" id="input2" name="input2"><br>
+
+    <label for="input3">SONG NAME</label>
+    <input type="text" id="input3" name="input3"><br>
+
+    <button id="replace-btn" class="nes-btn is-primary">Generate</button>
+  </form>
+
+  <div id="output">
+    <!-- Dynamic content will be inserted here -->
+  </div>
+
+  <button id="copy-btn" class="nes-btn is-primary">Copy</button>
+
+  <script>
+    document.getElementById("replace-btn").addEventListener("click", replaceInputs);
+    document.getElementById("copy-btn").addEventListener("click", copyOutput);
+
+    function replaceInputs(e) {
+      e.preventDefault();
+      var input1 = document.getElementById("input1").value;
+      var input2 = document.getElementById("input2").value;
+      var input3 = document.getElementById("input3").value;
+      var output = document.getElementById("output");
+
+      var dynamicContent = `
+        ${input1} ,<br>
+        ${input2} ,<br>
+        ${input3} ,<br>
+        ${input1} ${input2} ,<br>
+        ${input2} ${input1} ,<br>
+        ${input3} ${input1} ,<br>
+        ${input3} ${input2} ,<br>
+        ${input3} lyrics ,<br>
+        ${input1} lyrics ,<br>
+        ${input2} lyrics ,<br>
+        ${input1} ${input2} lyrics ,<br>
+        ${input2} ${input1} lyrics ,<br>
+        ${input3} ${input1} lyrics ,<br>
+        ${input3} ${input2} lyrics ,<br>
+        ${input1} lyrics ${input2} ,<br>
+        lyrics ${input2} ${input1} ,<br>
+        ${input3} lyrics ${input2} ,<br>
+        lyrics ${input2} ${input3}
+      `;
+      output.innerHTML = dynamicContent;
+    }
+
+    function copyOutput() {
+      var output = document.getElementById("output");
+      var tempInput = document.createElement("textarea");
+
+      tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+      tempInput.value = output.textContent.toLowerCase();
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+
+      // Display an alert after copying to the clipboard
+      alert("Copy hogeya bhai!! abhi jake video schedule karo 😤");
+    }
+  </script>
+</body>
+
+</html>
