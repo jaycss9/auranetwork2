@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>TAG GENERATOR (single artist)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #fff;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      color: #61dafb;
+    }
+
+    form {
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    label {
+      font-weight: bold;
+      color: #61dafb;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      margin: 10px 0;
+      border: 1px solid #61dafb;
+      border-radius: 5px;
+      box-sizing: border-box;
+      background-color: #444;
+      color: #fff;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin: 20px auto;
+      display: block;
+      border: 1px solid #61dafb;
+      border-radius: 5px;
+      background-color: #61dafb;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    #output {
+      width: 80%;
+      margin: 40px auto;
+      text-align: center;
+      font-size: 18px;
+      padding: 20px;
+      border: 1px solid #61dafb;
+      border-radius: 5px;
+      background-color: #333;
+      white-space: pre-line;
+      overflow-wrap: break-word;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    #copy-btn {
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: 1px solid #61dafb;
+      border-radius: 5px;
+      background-color: #61dafb;
+      cursor: pointer;
+      color: #fff;
+      display: block;
+    }
+
+    img {
+      width: 50px;
+      margin: 0 auto;
+      text-align: center;
+      display: block;
+      padding: 10px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+      form,
+      #output {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijKQ8QAr2QKq85ah7jLo73AhHUYHxUYT-TfPigPIxhwbggJ8Rj0_hPJwUfFGPlgIXll6rkjUWTTmLBz0N2V5DfhyphenhyphenVA0KvKbm9u9HRd9H4VvcMzm34gsTeAQRRAVNxhNo3DdHnNWXxgVqP_od8-cTnZw6a7JEm4UcikqAU0uVgeMUw7T4hz6ZsPXLNT/s1791/AURA_LOGOS_2023.png" />
+  <h1>TAG GENERATOR (single artist)</h1>
+  <br>
+  <br>
+  <form>
+    <label for="input1">Artist Name</label>
+    <input type="text" id="input1" name="input1" placeholder="Enter artist name"><br>
+
+    <label for="input2">Song Name:</label>
+    <input type="text" id="input2" name="input2" placeholder="Enter song name"><br>
+
+    <button id="replace-btn">Generate</button>
+  </form>
+
+  <div id="output">
+    <!-- Dynamic content will be inserted here -->
+  </div>
+
+  <button id="copy-btn">Copy</button>
+
+  <script>
+    document.getElementById("replace-btn").addEventListener("click", replaceInputs);
+    document.getElementById("copy-btn").addEventListener("click", copyOutput);
+
+    function replaceInputs(e) {
+      e.preventDefault();
+      var input1 = document.getElementById("input1").value;
+      var input2 = document.getElementById("input2").value;
+      var output = document.getElementById("output");
+
+      var dynamicContent = `
+        ${input1} ,<br>
+        ${input2} ,<br>
+        ${input1} ${input2} ,<br>
+        ${input2} ${input1} ,<br>
+        ${input1} ${input2} lyrics ,<br>
+        ${input2} ${input1} lyrics ,<br>
+        ${input1} lyrics ${input2} ,<br>
+        ${input2} lyrics ${input1} ,<br>
+        ${input1} lyrics ,<br>
+        ${input2} lyrics ,<br>
+        lyrics ${input1} ,<br>
+        lyrics ${input2} ,<br>
+        lyrics ${input1} ${input2} ,<br>
+        lyrics ${input2} ${input1} ,<br>
+        lyrics for ${input2} by ${input1} ,<br>
+        lyric video for ${input2} by ${input1}
+      `;
+      output.innerHTML = dynamicContent;
+    }
+
+    function copyOutput() {
+      var output = document.getElementById("output");
+      var tempInput = document.createElement("textarea");
+
+      tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+      tempInput.value = output.textContent.toLowerCase();
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+
+      // Display an alert after copying to the clipboard
+      alert("Copy hogeya bhai!! abhi jake video schedule karo 😤");
+    }
+  </script>
+</body>
+
+</html>

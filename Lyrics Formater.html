@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyrics Format</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+      text-align: center;
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+
+    h2 {
+      color: #61dafb;
+    }
+
+    #paragraphForm {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #paragraphInput {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #444;
+      color: #fff;
+      border: 1px solid #333;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    #splitSize {
+      width: 50px;
+      padding: 5px;
+      margin-bottom: 10px;
+      background-color: #444;
+      color: #fff;
+      border: 1px solid #333;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    #preview {
+      border: 1px solid #444;
+      padding: 10px;
+      margin-top: 10px;
+      text-align: left;
+      background-color: #555;
+      color: #fff;
+      border-radius: 5px;
+      overflow-wrap: break-word;
+    }
+
+    button {
+      background-color: #61dafb;
+      color: #fff;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    img{
+      width: 50px;
+    }
+
+    h1{
+        color: #61dafb;
+    }
+
+    
+
+  </style>
+</head>
+<body>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEijKQ8QAr2QKq85ah7jLo73AhHUYHxUYT-TfPigPIxhwbggJ8Rj0_hPJwUfFGPlgIXll6rkjUWTTmLBz0N2V5DfhyphenhyphenVA0KvKbm9u9HRd9H4VvcMzm34gsTeAQRRAVNxhNo3DdHnNWXxgVqP_od8-cTnZw6a7JEm4UcikqAU0uVgeMUw7T4hz6ZsPXLNT/s1791/AURA_LOGOS_2023.png"/>
+    <h1>LYRICS FORMATER</h1>
+<h2>Enter Your Lyrics:</h2>
+
+<form id="paragraphForm">
+  <textarea id="paragraphInput" rows="4" oninput="updatePreview()" placeholder="Enter your paragraphs..."></textarea>
+  <br>
+  <label for="splitSize" style="color: #61dafb;">Words per Line (max : 6 - 8):</label>
+  <input type="number" id="splitSize" value="5" min="1" oninput="updatePreview()">
+  <br>
+  <h2 style="color: #61dafb;">Preview:</h2>
+  <div id="preview"></div>
+  <br>
+  <button type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
+</form>
+
+<script>
+  function updatePreview() {
+    var inputText = document.getElementById('paragraphInput').value;
+    var splitSize = parseInt(document.getElementById('splitSize').value);
+    var paragraphs = inputText.split('\n');
+
+    var result = '';
+
+    paragraphs.forEach(function (paragraph) {
+      var words = paragraph.split(' ');
+
+      for (var i = 0; i < words.length; i++) {
+        result += words[i] + ' ';
+
+        // Break the line after the specified number of words
+        if ((i + 1) % splitSize === 0) {
+          result += '<br>';
+        }
+      }
+
+      result += '<br>'; // Add a line break between paragraphs
+    });
+
+    document.getElementById('preview').innerHTML = result;
+  }
+
+  function copyToClipboard() {
+    var previewText = document.getElementById('preview').innerText;
+
+    // Create a temporary textarea element, set its value, and select it
+    var tempTextArea = document.createElement('textarea');
+    tempTextArea.value = previewText;
+    document.body.appendChild(tempTextArea);
+    tempTextArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempTextArea);
+
+    alert('Copy hogeya bhai!! abhi jake video ready karo 😤');
+  }
+</script>
+
+</body>
+</html>
