@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Text Converter</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  	<link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css">
+  	<link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+  	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Press Start 2P';
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			background-color: #f0f0f0;
+		}
+		
+		.container {
+			width: 80%;
+			max-width: 800px;
+			background-color: #fff;
+			border-radius: 10px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+		}
+		
+		textarea {
+			width: 100%;
+			min-height: 200px;
+			border: 1px solid #ccc;
+			padding: 10px;
+			border-radius: 5px;
+			resize: vertical;
+		}
+		
+		button {
+			padding: 10px 20px;
+			background-color: #007BFF;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+	<script>
+		function convertText() {
+			var input = document.getElementById("input").value;
+			var output = "";
+
+			if (document.getElementById("uppercase").checked) {
+				output = input.toUpperCase();
+			}
+			else if (document.getElementById("lowercase").checked) {
+				output = input.toLowerCase();
+			}
+			else if (document.getElementById("camelcase").checked) {
+				output = toCamelCase(input);
+			}
+
+			document.getElementById("output").value = output;
+		}
+
+		function toCamelCase(input) {
+			return input.toLowerCase().replace(/[\s-](\w)/g, function(match, group1) {
+				return group1.toUpperCase();
+			});
+		}
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h1>Text Converter</h1>
+		<label for="input">Enter Text:</label>
+		<textarea id="input"></textarea><br><br>
+
+		<p>Select Conversion:</p>
+		<input type="radio" id="uppercase" name="conversion" value="uppercase">
+		<label for="uppercase">All Uppercase</label><br>
+		<input type="radio" id="lowercase" name="conversion" value="lowercase">
+		<label for="lowercase">All Lowercase</label><br>
+		<input type="radio" id="camelcase" name="conversion" value="camelcase">
+		<label for="camelcase">Camel Case</label><br><br>
+
+		<button onclick="convertText()" class="nes-btn is-error">Convert</button><br><br>
+
+		<label for="output">Output:</label>
+		<textarea id="output" readonly></textarea>
+	</div>
+</body>
+</html>
