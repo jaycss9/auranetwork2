@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Description Generator</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #fff; /* White background */
+      color: #333; /* Dark gray text color */
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px;
+      background-color: #333; /* Dark gray container background */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    h2, h3 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #ff9900; /* Orange text color */
+    }
+
+    label {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      display: block;
+      color: #ff9900; /* Orange text color */
+    }
+
+    input[type="text"],
+    textarea {
+      width: calc(100% - 20px);
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ff9900; /* Orange border */
+      border-radius: 4px;
+      margin-bottom: 20px;
+      background-color: #fff; /* White input background */
+      color: #333; /* Dark gray text color */
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #ff9900; /* Orange button color */
+      color: #fff; /* White text color */
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #333; /* Dark gray button color on hover */
+    }
+
+    .generated-description {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #333; /* Dark gray generated description background */
+      border-radius: 8px;
+      box-shadow: 0 0 25px #ff9900; /* Orange box shadow */
+    }
+
+    .copy-container {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .copy-button {
+      background-color: #ff9900; /* Orange button color */
+      color: #333; /* Dark gray text color */
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .copy-button:hover {
+      background-color: #333; /* Dark gray button color on hover */
+    }
+
+    .copy-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333; /* Dark gray text color */
+    }
+
+    img {
+      width: 50px;
+    }
+  </style>
+
+  <script>
+    function copyText() {
+      const textarea = document.getElementById("generatedDescription");
+      textarea.select();
+      document.execCommand("copy");
+      document.getElementById("copyButton").innerText = "Copied!";
+    }
+
+    function replaceText() {
+      const a1 = document.getElementById("a1").value.trim();
+      const n = document.getElementById("n").value.trim();
+      const a2 = document.getElementById("a2").value.trim();
+      const s1 = document.getElementById("s1").value.trim();
+      const s2 = document.getElementById("s2").value.trim();
+      const l = document.getElementById("l").value.trim();
+      const r = document.getElementById("r").value.trim();
+
+      let description = `${a1.toLowerCase()} - ${n.toLowerCase()}`;
+      if (a2 !== "") {
+        description += ` ft. ${a2.toLowerCase()}`;
+      }
+      description += ` \n🌙Lofi Essentials: https://spti.fi/chillvibes 
+
+🎵 Auranetwork Spotify: https://spti.fi/Auranetwork
+📸 Follow us on Instagram: https://www.instagram.com/auranetworkofficial/
+👥 Our Discord: https://discord.gg/UkgsTRRH6z
+
+🎧 Stream & Download: ${l}
+
+🔔 SUBSCRIBE to never miss out on the latest lyric videos and song releases: https://www.youtube.com/@AuraNetworkSerenity
+
+✨ Follow ${a1}:
+${s1}
+
+`;
+
+      if (s2 !== "") {
+        description += `✨ Follow ${a2}:
+${s2}
+
+`;
+      }
+
+      let hashtags = `#${n.toLowerCase().replace(/\s/g, "")} #${a1.toLowerCase().replace(/\s/g, "")}`;
+      if (a2 !== "") {
+        hashtags += `#${a2.toLowerCase().replace(/\s/g, "")}`;
+      }
+      description += '📱 Follow us on:\nInstagram: https://www.instagram.com/auranetworkofficial/\nFacebook: https://www.facebook.com/auranetworkfamily\nTwitter: https://twitter.com/auraxall';
+      if (r !== "") {
+        description += ` \n\nRelated Artist/Extra Artist: ${r}`;
+      }
+      description += ` \n\nTags\n#${n.toLowerCase().replace(/\s/g, "")} #${a1.toLowerCase().replace(/\s/g, "")} #auraserenity #sadsongs #${n.toLowerCase().replace(/\s/g, "")}lyrics`;
+      description += '\n\n📷 Background image credits: \nUnsplash: http://unsplash.com \nPexels: http://pexels.com';
+      description += '\n\n📥 Submit your music: https://auraserenity.portal.district.biz/app/login';
+      description += `\n\n ${a1}, `;
+      if (a2 !== "") {
+        description += `${a2}, `;
+      }
+      if (r !== "") {
+        description += `${r}, `;
+      }
+      description += `${a1} Latest, ${n} Lyrics, ${n} Lyrics Video`;
+      description += `\n\nFollow Our All New Playlist On Spotify ᯤ `;
+      description += `\n\nAuranetwork on Spotify: https://spti.fi/Auranetwork (profile)`;
+      description += `\n\n✘Chill Vibes: Lofi Essentials🎶🌙: https://spti.fi/chillvibes`;
+      description += `\n✘Midnight Moods: Lofi Hip Hop🌌🎧: https://spti.fi/midnightmoods`;
+      description += `\n✘EDM 2024🎧 : https://spti.fi/EDM2024`;
+      description += `\n✘Sad boy with no destination😢🚶‍♂️: https://spti.fi/sadboy`;
+      description += `\n✘Elevating Vibes 🚀🎶: https://spti.fi/elevatingvibes`;
+      description += `\n✘music that feels broken💔🎵: https://spti.fi/mtfb`;
+      description += `\n✘Dream and Feel (Hiphop/Rap)🌌🎤: https://spti.fi/dreamandfeel`;
+      description += '\n\n📌 LINKS: \nSubscribe: https://www.youtube.com/@AuraNetworkSerenity?sub_confirmation=1 \nLatest Video: https://youtube.com/playlist?list=PL6XvoUHzMezgk4YGb1Rs4Al7ODm5d6ww4&si=y0CXM2g_7SfaweP7';
+      document.getElementById("generatedDescription").innerHTML = description;
+      document.getElementById("copyButton").innerText = "Copy";
+    }
+  </script>
+</head>
+<body>
+    <div class="container">
+        <h2>YouTube Description Generator</h2>
+        <h3>Aura Sereity for visuals</h3>
+        <label for="a1">🎤 Artist 1:</label>
+        <input type="text" id="a1">
+        <label for="a2">🎤 Artist 2:</label>
+        <input type="text" id="a2">
+        <label for="n">Song Name:</label>
+        <input type="text" id="n">
+        <label for="s1">Social Media 1:</label>
+        <textarea id="s1" rows="4" cols="50"></textarea>
+        <label for="s2">Social Media 2:</label>
+        <textarea id="s2" rows="4" cols="50"></textarea>
+        <label for="l">Link For Streaming Music:</label>
+        <input type="text" id="l">
+        <label for="r">Related Artist/Extra Artist (example: Hypx, powfu)(Optional)</label>
+        <input type="text" id="r">
+        <br>
+        <button onclick="replaceText()">Generate Description</button>
+        <div class="generated-description">
+          <h3>Generated Description</h3>
+          <textarea id="generatedDescription" rows="10" readonly></textarea>
+          <div class="copy-container">
+            <button id="copyButton" onclick="copyText()">Copy</button>
+            <span class="copy-text">(Click the button to copy the description)</span>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
