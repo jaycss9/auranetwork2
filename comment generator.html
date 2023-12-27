@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Music Comment Generator</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            background: url('files/1.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        select, button {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        p {
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="container">
+            <h1>Random Music Comment Generator</h1>
+            <select id="moodSelector" onchange="onCategoryChange('moodSelector', 'categorySelector')">
+                <option value="">Select a Mood</option>
+                <option value="happy">Happy</option>
+                <option value="sad">Sad</option>
+                <option value="chill">Chill</option>
+            </select>
+            <select id="categorySelector" onchange="onCategoryChange('categorySelector', 'moodSelector')">
+                <option value="">Select a Category</option>
+                <option value="channelPromotion">Channel Promotion</option>
+                <option value="spotifyMarketing">Spotify Marketing</option>
+                <option value="questions">Questions</option>
+                <option value="casual">KAZUAL</option>
+            </select>
+            <button onclick="generateComment()">Generate Random Comment</button>
+            <button onclick="copyComment()">Copy Comment</button>
+            <p id="generatedComment"></p>
+        </div>
+    </div>
+
+    <script>
+        const moodSelector = document.getElementById('moodSelector');
+        const categorySelector = document.getElementById('categorySelector');
+    
+        const commentsByMood = {
+            'happy': [
+                "This track just lifts my spirits - love it!",
+                "Feeling so happy and uplifted, thanks to this song!",
+                "This song puts a big smile on my face every time!",
+                "Nothing beats the joy this song brings!",
+                "This song is pure sunshine, it brightens my day!",
+                "Feeling an instant mood boost with this cheerful tune.",
+                "The happiness in this song is contagious. Love it!",
+                "Every note is a burst of joy. Can't stop smiling!",
+                "Happy vibes all the way! Perfect for a good mood.",
+                "If happiness had a soundtrack, this song would be it!",
+                "This track turns any day into a happy dance party!",
+                "A feel-good anthem that lifts my spirits high.",
+                "Just what I needed to turn a regular day into an extraordinary one.",
+                "This song radiates positivity. Instant mood lifter!",
+                "The melody is like a burst of sunshine after the rain.",
+                "I can't help but feel happy every time this plays.",
+                "An uplifting melody that puts a skip in my step.",
+                "This track is a celebration of joy and happiness.",
+                "Bringing happiness to my ears with this amazing song.",
+                "A musical journey that leaves me with a heart full of joy.",
+                "This song has the magical ability to make me happy instantly.",
+                "Happy beats and catchy rhythms make this song a favorite.",
+                "I'm on cloud nine every time I listen to this feel-good anthem.",
+                "The world needs more songs like this, pure happiness!"
+            ],
+            'sad': [
+                "Really hits deep in the feels, beautifully sad.",
+                "A song that understands the meaning of sorrow.",
+                "This song speaks to my soul during tough times.",
+                "It's like this song knows exactly how I feel.",
+                "This song captures the essence of heartache so perfectly.",
+                "The melancholy in this melody resonates with my soul.",
+                "A poignant track that speaks to the depths of sorrow.",
+                "Every note feels like a tear falling gently in the rain.",
+                "This song is a bittersweet reminder of lost love.",
+                "Hauntingly beautiful, it echoes the pain of goodbye.",
+                "A ballad of sadness, touching the heart deeply.",
+                "The lyrics paint a vivid picture of longing and loss.",
+                "So moving, it's like it's telling the story of my life.",
+                "The depth of emotion in this song is overwhelming.",
+                "A tender melody that speaks to the brokenhearted.",
+                "This song is a companion in my moments of solitude.",
+                "It's rare to find a song that expresses sadness so genuinely.",
+                "The raw emotion in this song is palpable and moving.",
+                "This track is the voice of a shattered heart.",
+                "A hauntingly poignant tune that stirs deep emotions.",
+                "Listening to this, I feel a deep connection to my own grief.",
+                "A song that expresses the pain of loss like no other.",
+                "So melancholic, yet I can't stop listening to it.",
+                "This song manages to beautifully articulate unspoken sadness."
+            ],
+            'chill': [
+                "Perfect chill vibes, just what I needed!",
+                "So relaxing and soothing, love this track!",
+                "The ultimate song for a chill-out session.",
+                "This is my go-to song for unwinding after a long day.",
+                "This laid-back vibe is perfect for unwinding after a long day.",
+                "I feel like I'm floating on a cloud when I listen to this.",
+                "Chill vibes all the way – ideal for a lazy Sunday afternoon.",
+                "A soothing melody that melts away stress and tension.",
+                "Transported to a state of tranquility with this track.",
+                "Smooth beats and calming rhythms – the ultimate relaxation.",
+                "Close your eyes, listen, and let the chill take over.",
+                "This song creates a peaceful atmosphere wherever I am.",
+                "Perfect background music for a chill and cozy evening.",
+                "The mellow tones of this track are like a gentle breeze.",
+                "Chillaxing to the max with this calming masterpiece.",
+                "I could listen to this on repeat for hours – so chill!",
+                "Captures the essence of serenity and calmness beautifully.",
+                "A musical journey that puts my mind at ease.",
+                "Chill factor through the roof – pure relaxation.",
+                "Listening to this feels like a peaceful escape.",
+                "The perfect soundtrack for moments of quiet contemplation.",
+                "Chill beats and easygoing melodies – a perfect combo.",
+                "A laid-back groove that instantly lifts my spirits.",
+                "Chill mode activated – this track is a chill-out anthem."
+            ],
+            
+        };
+    
+        const commentsByCategory = {
+            'channelPromotion': [
+                "Don't forget to follow us on YouTube for more amazing tracks!",
+                "Subscribe to our channel for a daily dose of musical bliss.",
+                "Join our music community on YouTube and stay updated with the latest hits!",
+                "Follow us on social media for exclusive content and updates."
+            ],
+            'spotifyMarketing': [
+                "Check out our playlist on Spotify for endless hours of incredible music. link👉: https://spti.fi/Auranetwork",
+                "Follow us on Spotify to discover new songs and artists. link👉: https://spti.fi/Auranetwork",
+                "Create the perfect mood with our Spotify playlists. Follow us now! link👉: https://spti.fi/Auranetwork",
+                "Enhance your music experience on Spotify by following our curated playlists. link👉: https://spti.fi/Auranetwork "
+            ],
+            'questions': [
+                "Do you believe having one true love?",
+                "Do you say you are fine even if you aren’t?",
+                "Are you feeling good right now?",
+                "what do you want back?",
+                "Do you like looking back at old photos?",
+                "Do you like helping others?",
+            ],
+            'casual':[
+                "can't think of a better way to start the week than with this banger :)",
+                "i'm gonna be singing along to this all weekend tbh",
+                "ITS CHILL MONDAY.... addicted to this song",
+                "something a little harder to start your Tuesday, what have you been listening to this week?",
+                "THIS BE HITTING HARD 😈💥",
+            ],
+        };
+    
+        function getRandomComment(category) {
+            const comments = commentsByCategory[category] || commentsByMood[category];
+            const randomIndex = Math.floor(Math.random() * comments.length);
+            return comments[randomIndex];
+        }
+    
+        function generateComment() {
+            const selectedMood = moodSelector.value;
+            const selectedCategory = categorySelector.value;
+            const generatedComment = getRandomComment(selectedCategory || selectedMood);
+            document.getElementById('generatedComment').textContent = generatedComment;
+        }
+    
+        function copyComment() {
+            const generatedComment = document.getElementById('generatedComment');
+            const textarea = document.createElement('textarea');
+            textarea.value = generatedComment.textContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+            alert('Comment copied to clipboard!');
+        }
+    
+        function onCategoryChange(changedSelectorId, otherSelectorId) {
+            const changedSelector = document.getElementById(changedSelectorId);
+            const otherSelector = document.getElementById(otherSelectorId);
+    
+            if (changedSelector.value) {
+                otherSelector.selectedIndex = 0;
+            }
+        }
+    </script>
+    
+</body>
+</html>
