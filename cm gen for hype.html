@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Music Comment Generator(FOR LATIN)</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            background: url('files/1.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        select, button {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        p {
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="container">
+            <h1>Random Music Comment Generator</h1>
+            <select id="moodSelector" onchange="onCategoryChange('moodSelector', 'categorySelector')">
+                <option value="">Select a Mood</option>
+                <option value="happy">Happy</option>
+                <option value="sad">Sad</option>
+                <option value="chill">Chill</option>
+            </select>
+            <select id="categorySelector" onchange="onCategoryChange('categorySelector', 'moodSelector')">
+                <option value="">Select a Category</option>
+                <option value="channelPromotion">Channel Promotion</option>
+                <option value="spotifyMarketing">Spotify Marketing</option>
+                <option value="questions">Questions</option>
+                <option value="casual">KAZUAL</option>
+            </select>
+            <button onclick="generateComment()">Generate Random Comment</button>
+            <button onclick="copyComment()">Copy Comment</button>
+            <p id="generatedComment"></p>
+        </div>
+    </div>
+
+    <script>
+        const moodSelector = document.getElementById('moodSelector');
+        const categorySelector = document.getElementById('categorySelector');
+    
+        const commentsByMood = {
+            'happy': [
+                "Jammin' to these beats like 😎🎶",
+                "When the bass drops, my mood lifts! 🙌🔥",
+                "Feelin' the flow, feelin' the joy! 😁🎧",
+                "Turn up the volume, turn up the happiness! 🚀😃",
+                "Chillin' with good tunes and good vibes. Life is sweet! 🍭🎤",
+                "Elevating my spirits with these dope hip-hop hits! 🚁🔊",
+                "These beats got me on cloud nine! ☁️9️⃣🎶",
+                "Positive rhymes, positive vibes, positive life! ✌️😎",
+                "Beats so good, they're my happy place! 🌈🎧",
+                "If happiness had a soundtrack, this song would be it! 🎶😊",
+                "My mood booster right here! 🚀😁",
+                "A feel-good anthem that lifts my spirits high. 🚀😄",
+                "Turn up the volume, life's too short for silence! 📢😃",
+                "Flowing through the day with this melody! 🌊🎤",
+                "Grooving non-stop, what a feeling! 💃🔥",
+                "I can't help but feel happy every time this plays. 😄🎶",
+                "An uplifting melody that puts a skip in my step. 💃🎵",
+                "This track is a celebration of joy and happiness. 🎉😊",
+                "Can't get enough of this sound! 🤩🔊",
+                "Happy beats and catchy rhythms make this song a favorite. 🎶🌟",
+                "I'm on cloud nine every time I listen to this feel-good anthem. ☁️😊",
+                "The world needs more songs like this, classic hits! 🌍😃",
+            ],
+            'sad': [
+                "This track really speaks to the soul during tough times. 💔🎵",
+                "Feeling the weight of the world with these lyrics. 🌍😢",
+                "Hits close to home, this one. Deeply moving. 🏠💧",
+                "A song that understands the blues of life. 🎶😔",
+                "In my feelings with this one. It's like a mirror to the heart. 💔🔍",
+                "Reflecting on the hard times through these beats. 🥀🎧",
+                "Music that tells the story of struggle so well. 📖😥",
+                "These lyrics are hauntingly beautiful and sad. 👻🎤",
+                "Feels like this song is narrating my life's tough chapters. 📚😞",
+                "A bittersweet symphony of real life. 🎻😟",
+                "This track is a journey through the darker side of life. 🌑🚶‍♂️",
+                "Emotional rollercoaster with this music. 🎢😭",
+                "Heartbreak sounds like this. 💔🎶",
+                "A melody that carries the weight of unspoken words. 🎵🌧️",
+                "Such a poignant reminder of what we sometimes go through. ✨😿",
+                "The rhythm of rainy days and hard times. 🌧️🎧",
+                "A song that weaves through the sorrows of life. 🕸️😖",
+                "Crying inside but vibing to this track. 😢🎶",
+                "Sometimes you need a song that understands your pain. 💊😓",
+                "The beats are heavy, just like my heart. 🖤🎛️",
+                "Finding comfort in these melancholic melodies. 🛌🎼",
+                "This song is a companion in loneliness. 🚶‍♀️🎧",
+                "It's like the artist read my mind and poured it into music. 🧠🎵",
+                "Drowning my sorrows in these beats. 🌊😪",
+                "Echoing the sentiments of a broken heart. 💔🔊",
+            ],
+            'chill': [
+                "This beat is the definition of chill vibes. 🌊🎶",
+                "Laid back and loving it with this track. 🛋️🎧",
+                "Smooth like a Sunday morning. ☕🎵",
+                "This song is my new chill anthem. 🌙🔊",
+                "Vibing so hard to this mellow beat. 😌🎶",
+                "Pure relaxation every time I hit play. 🌸🎛️",
+                "The soundtrack to my peace of mind. 🧘‍♂️🎼",
+                "Cooler than a breezy summer night. 🌌🎧",
+                "Laying back and letting the beats take over. 🌤️🎵",
+                "This is what zen sounds like in hip-hop form. 🕊️🎶",
+                "Mellow mood activated thanks to this track. 🌈🔉",
+                "Floating on these smooth rhythms. 🌊🎚️",
+                "Chill level: Maximum with this one. 🚀🎧",
+                "Hip-hop that soothes the soul. 💆‍♀️🎵",
+                "This beat is like a gentle wave washing over me. 🌊🎤",
+                "Just what I needed to unwind. 🛁🎶",
+                "Every note hits the right spot in my chill zone. 🎯🎧",
+                "Cruising through my day with this tune. 🚗🎵",
+                "It's like a cool breeze in musical form. 🌬️🎶",
+                "My go-to track for de-stressing. 🌿🔊",
+                "Setting a laid-back mood instantly. 🌆🎼",
+                "This track is a chill pill in audio form. 💊🎧",
+                "Hip-hop that's as chill as a cold iced tea on a hot day. 🍹🎵",
+                "Kicking back and letting the world fade away. 🌍🎶",
+                "The perfect blend of chill beats and cool flows. 🍃🎤",
+            ],
+            
+        };
+    
+        const commentsByCategory = {
+            'channelPromotion': [
+                "Don't forget to follow us on YouTube for more amazing tracks!",
+                "Subscribe to our channel for a daily dose of musical bliss.",
+                "Join our music community on YouTube and stay updated with the latest hits!",
+                "Follow us on social media for exclusive content and updates."
+            ],
+            'spotifyMarketing': [
+                "Check out our playlist on Spotify for endless hours of incredible music. link👉: https://spti.fi/Auranetwork",
+                "Follow us on Spotify to discover new songs and artists. link👉: https://spti.fi/Auranetwork",
+                "Create the perfect mood with our Spotify playlists. Follow us now! link👉: https://spti.fi/Auranetwork",
+                "Enhance your music experience on Spotify by following our curated playlists. link👉: https://spti.fi/Auranetwork "
+            ],
+            'questions': [
+                "Do you believe having one true love?",
+                "Do you say you are fine even if you aren’t?",
+                "Are you feeling good right now?",
+                "what do you want back?",
+                "Do you like looking back at old photos?",
+                "Do you like helping others?",
+                "Do you have a favorite color?",
+                "What's your favorite food?",
+                "Do you enjoy reading books?",
+                "Are you a morning or night person?",
+                "Do you like pets? What kind?",
+                "What's your favorite hobby?",
+                "Do you like to travel?",
+                "What's your favorite movie?",
+                "Do you have a favorite song?",
+                "What's your favorite season?",
+                "Do you play any sports?",
+                "Coffee or tea: which do you prefer?",
+                "Do you like to cook or bake?",
+                "What's your dream vacation?",
+                "Do you have a favorite ice cream flavor?",
+                "Are you into video games?",
+                "Do you have a favorite TV show?",
+                "Mountains or beach: which do you prefer?",
+                "Do you enjoy gardening?",
+                "What's your favorite type of music?",
+            ],
+            'casual':[
+                "can't think of a better way to start the week than with this banger :)",
+                "i'm gonna be singing along to this all weekend tbh",
+                "ITS CHILL MONDAY.... addicted to this song",
+                "something a little harder to start your Tuesday, what have you been listening to this week?",
+                "THIS BE HITTING HARD 😈💥",
+                "Monday blues? Not with this track on repeat! 🎶🔥",
+                "Kicking off the week with this amazing tune! 💪🎵",
+                "Nothing beats Monday morning like this song! 🌅🎧",
+                "Starting my week right with this epic beat! 🚀🎶",
+                "This song is my Monday motivation! Let's go! 🌟🏃‍♂️",
+                "Tuesday's got me in the groove with this number! 🕺💫",
+                "This tune is making my Tuesday ten times better! 🎉🎵",
+                "Tunesday? More like this track on repeat! 🔄🎶",
+                "This song is the perfect Tuesday pick-me-up! 🌈🎧",
+                "Turning up this track for some Tuesday tunes! 🔊🎶",
+                "Halfway through the week and this song is keeping me going! 🌟🎵",
+                "Wednesday's here and so is my favorite jam! 🎶💃",
+                "This track is my midweek mood booster! 💥🎧",
+                "Wednesdays feel better with this song on blast! 🔥🎶",
+                "Getting over the hump day with this amazing tune! 🐫🎵",
+                "This track is making my Thursday feel like a Friday! 🎉🎶",
+                "Thursdays are for throwbacks and this song is a classic! 🕰️🎵",
+                "Almost the weekend and jamming to this banger! 🚀🎧",
+                "This song is my Thursday vibe! Just what I needed! 🌈🎶",
+                "Thursday tunes are sorted with this killer track! 🎵🔥",
+                "Friday just got better with this track! Let the weekend begin! 🎉🎶",
+                "This song is the soundtrack to my Friday feeling! 🌟💃",
+                "Finally Friday and blasting this banger! 🚀🎧",
+                "Friday night vibes with this epic tune! 🌙🎶",
+                "Ending the week on a high note with this amazing song! 🎵💥",
+                "Saturday's are for this kind of music! Loving it! 🌞🎶",
+                "Weekend vibes are strong with this track! 🎉🎵",
+                "This song is making my Saturday epic! 🚀💫",
+                "Saturday jam session with this banger! 🎶🕺",
+                "Weekend anthem right here! Saturday's never sounded so good! 🔊🎵",
+                "Chilling out this Sunday with this soothing track! 🌅🎶",
+                "Ending the weekend right with this beautiful song! 🌟🎧",
+                "Sunday relaxation mode activated with this tune! 🛋️🎵",
+                "This song is my Sunday escape! Loving it! 🌿🎶",
+                "Sundays are for soulful music like this! 🎵❤️",
+            ],
+        };
+    
+        function getRandomComment(category) {
+            const comments = commentsByCategory[category] || commentsByMood[category];
+            const randomIndex = Math.floor(Math.random() * comments.length);
+            return comments[randomIndex];
+        }
+    
+        function generateComment() {
+            const selectedMood = moodSelector.value;
+            const selectedCategory = categorySelector.value;
+            const generatedComment = getRandomComment(selectedCategory || selectedMood);
+            document.getElementById('generatedComment').textContent = generatedComment;
+        }
+    
+        function copyComment() {
+            const generatedComment = document.getElementById('generatedComment');
+            const textarea = document.createElement('textarea');
+            textarea.value = generatedComment.textContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+            alert('Comment copied to clipboard!');
+        }
+    
+        function onCategoryChange(changedSelectorId, otherSelectorId) {
+            const changedSelector = document.getElementById(changedSelectorId);
+            const otherSelector = document.getElementById(otherSelectorId);
+    
+            if (changedSelector.value) {
+                otherSelector.selectedIndex = 0;
+            }
+        }
+    </script>
+    
+</body>
+</html>
