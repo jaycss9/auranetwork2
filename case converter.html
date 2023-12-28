@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: block;
+            color: #3498db;
+        }
+
+        textarea {
+            font-size: 16px;
+            padding: 10px;
+            width: 300px;
+            height: 100px;
+            resize: vertical;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border: 1px solid #34495e;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            margin: 0 5px 0 0;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-top: 20px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #copyButton {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: none;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #copyButton:hover {
+            background-color: #2980b9;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Case Converter</h1>
+
+    <label for="textInput">Enter text:</label>
+    <textarea id="textInput" placeholder="Type something..."></textarea><br>
+
+    <input type="radio" id="uppercase" name="caseType" value="uppercase" checked>
+    <label for="uppercase">Uppercase</label>
+    <input type="radio" id="lowercase" name="caseType" value="lowercase">
+    <label for="lowercase">Lowercase</label><br>
+
+    <button onclick="convertCase()">Convert Case</button>
+
+    <div id="result"></div>
+    <div class="button-container">
+        <button id="copyButton" onclick="copyText()">Copy Text</button>
+    </div>
+
+    <script>
+        function convertCase() {
+            const inputText = document.getElementById('textInput').value;
+            const resultElement = document.getElementById('result');
+            const copyButton = document.getElementById('copyButton');
+            const isUppercase = document.getElementById('uppercase').checked;
+
+            if (inputText.trim() === '') {
+                resultElement.innerHTML = 'Please enter some text.';
+                copyButton.style.display = 'none';
+                return;
+            }
+
+            const convertedText = isUppercase ? inputText.toUpperCase() : inputText.toLowerCase();
+            resultElement.textContent = convertedText;
+            copyButton.style.display = 'block';
+        }
+
+        function copyText() {
+            const resultText = document.getElementById('result').textContent;
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert('Text copied to clipboard');
+            }).catch(err => {
+                console.error('Error in copying text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>

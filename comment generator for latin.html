@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Music Comment Generator(for latin)</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            background: url('files/1.png') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        select, button {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        p {
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="container">
+            <h1>Random Music Comment Generator</h1>
+            <select id="moodSelector" onchange="onCategoryChange('moodSelector', 'categorySelector')">
+                <option value="">Select a Mood</option>
+                <option value="happy">Happy</option>
+                <option value="sad">Sad</option>
+                <option value="chill">Chill</option>
+            </select>
+            <select id="categorySelector" onchange="onCategoryChange('categorySelector', 'moodSelector')">
+                <option value="">Select a Category</option>
+                <option value="channelPromotion">Channel Promotion</option>
+                <option value="spotifyMarketing">Spotify Marketing</option>
+                <option value="questions">Questions</option>
+                <option value="casual">KAZUAL</option>
+            </select>
+            <button onclick="generateComment()">Generate Random Comment</button>
+            <button onclick="copyComment()">Copy Comment</button>
+            <p id="generatedComment"></p>
+        </div>
+    </div>
+
+    <script>
+        const moodSelector = document.getElementById('moodSelector');
+        const categorySelector = document.getElementById('categorySelector');
+    
+        const commentsByMood = {
+            'happy': [
+                "This track just lifts my spirits - love it! 🎶😄    \n\nLATIN : Esta canción eleva mi ánimo, ¡me encanta! 🎶😄",
+                "Feeling so happy and uplifted, thanks to this song! 🌞🎵   \n\nLATIN : Sintiéndome tan feliz y elevado, ¡gracias a esta canción! 🌞🎵",
+                "This song puts a big smile on my face every time! 😊🎼   \nLATIN : ¡Esta canción siempre me saca una gran sonrisa! 😊🎼",
+                "Nothing beats the joy this song brings! 🙌🎉   \nLATIN : ¡Nada supera la alegría que trae esta canción! 🙌🎉",
+                "This song is pure sunshine, it brightens my day! ☀️🎶   \nLATIN : Esta canción es puro sol, ilumina mi día! ☀️🎶",
+                "Feeling an instant mood boost with this cheerful tune. 🌈🎵   \nLATIN : Sintiendo un impulso instantáneo de ánimo con esta melodía alegre. 🌈🎵",
+                "The happiness in this song is contagious. Love it! 😁🎤   \nLATIN : La felicidad en esta canción es contagiosa. ¡Me encanta! 😁🎤",
+                "Every note is a burst of joy. Can't stop smiling! 😃🎹   \nLATIN : Cada nota es una explosión de alegría. ¡No puedo dejar de sonreír! 😃🎹",
+                "Happy vibes all the way! Perfect for a good mood. 😎🎧   \nLATIN : Vibra feliz todo el tiempo. Perfecta para un buen estado de ánimo. 😎🎧",
+                "If happiness had a soundtrack, this song would be it! 🎼😍   \nLATIN : Si la felicidad tuviera una banda sonora, ¡esta canción sería la indicada! 🎼😍",
+                "This track turns any day into a happy dance party! 💃🕺🎶   \nLATIN : Esta canción convierte cualquier día en una fiesta de baile feliz. 💃🕺🎶",
+                "A feel-good anthem that lifts my spirits high. 🚀🎵   \nLATIN : Un himno de buen rollo que eleva mi ánimo. 🚀🎵",
+                "Just what I needed to turn a regular day into an extraordinary one. 🌟🎶   \nLATIN : Justo lo que necesitaba para convertir un día común en uno extraordinario. 🌟🎶",
+                "This song radiates positivity. Instant mood lifter! 🌟😊   \nLATIN : Esta canción irradia positividad. Levantador instantáneo de ánimo. 🌟😊",
+                "The melody is like a burst of sunshine after the rain. 🌦️🌈🎶   \nLATIN : La melodía es como un estallido de sol después de la lluvia. 🌦️🌈🎶",
+                "I can't help but feel happy every time this plays. 😆🎼   \nLATIN : No puedo evitar sentirme feliz cada vez que suena. 😆🎼",
+                "An uplifting melody that puts a skip in my step. 🏃‍♂️🎵   \nLATIN : Una melodía estimulante que pone un brinco en mi paso. 🏃‍♂️🎵",
+                "This track is a celebration of joy and happiness. 🎉🎊   \nLATIN : Esta canción es una celebración de la alegría y la felicidad. 🎉🎊",
+                "Bringing happiness to my ears with this amazing song. 👂💕🎶  \nLATIN : Llevando la felicidad a mis oídos con esta increíble canción. 👂💕🎶",
+                "A musical journey that leaves me with a heart full of joy. 💖🎶   \nLATIN : Un viaje musical que me deja con el corazón lleno de alegría. 💖🎶",
+                "This song has the magical ability to make me happy instantly. ✨😊🎵   \nLATIN : Esta canción tiene la mágica habilidad de hacerme feliz al instante. ✨😊🎵",
+                "Happy beats and catchy rhythms make this song a favorite. 🥁🎼   \nLATIN : Ritmos felices y melodías pegajosas hacen de esta canción una favorita. 🥁🎼",
+                "I'm on cloud nine every time I listen to this feel-good anthem. ☁️🎶   \nLATIN : Estoy en las nubes cada vez que escucho este himno de buen rollo. ☁️🎶",
+                "The world needs more songs like this, pure happiness! 🌍😃🎶   \nLATIN : El mundo necesita más canciones como esta, ¡pura felicidad! 🌍😃🎶"
+            ],
+            'sad': [
+                "Really hits deep in the feels, beautifully sad. 😢🎵\nLATIN : Realmente llega profundo en los sentimientos, hermosamente triste. 😢🎵",
+                "A song that understands the meaning of sorrow. 🖤🎶\nLATIN : Una canción que comprende el significado del dolor. 🖤🎶",
+                "This song speaks to my soul during tough times. 🌌🎼\nLATIN : Esta canción habla a mi alma en tiempos difíciles. 🌌🎼",
+                "It's like this song knows exactly how I feel. 🎤😔\nLATIN : Es como si esta canción supiera exactamente cómo me siento. 🎤😔",
+                "This song captures the essence of heartache so perfectly. 💔🎵\nLATIN : Esta canción captura la esencia del dolor tan perfectamente. 💔🎵",
+                "The melancholy in this melody resonates with my soul. 🌧️🎶\nLATIN : La melancolía en esta melodía resuena con mi alma. 🌧️🎶",
+                "A poignant track that speaks to the depths of sorrow. 🥀🎵\nLATIN : Una canción conmovedora que habla a las profundidades del dolor. 🥀🎵",
+                "Every note feels like a tear falling gently in the rain. 💧🎹\nLATIN : ada nota se siente como una lágrima cayendo suavemente en la lluvia. 💧🎹",
+                "This song is a bittersweet reminder of lost love. 🖤🎶\nLATIN : Esta canción es un recordatorio agridulce del amor perdido. 🖤🎶",
+                "Hauntingly beautiful, it echoes the pain of goodbye. 😢🎵\nLATIN : Hermosamente triste, resuena el dolor de la despedida. 😢🎵",
+                "A ballad of sadness, touching the heart deeply. 💔🎶\nLATIN : Una balada de tristeza, tocando profundamente el corazón. 💔🎶",
+                "The lyrics paint a vivid picture of longing and loss. 📝🎼\nLATIN : Las letras pintan una imagen vívida de anhelo y pérdida. 📝🎼",
+                "So moving, it's like it's telling the story of my life. 📖🎵\nLATIN : Tan conmovedora, es como si estuviera contando la historia de mi vida. 📖🎵",
+                "The depth of emotion in this song is overwhelming. 😢🎶\nLATIN : La profundidad de la emoción en esta canción es abrumadora. 😢🎶",
+                "A tender melody that speaks to the brokenhearted. 💔🎵\nLATIN : Una melodía tierna que habla a los corazones rotos. 💔🎵",
+                "This song is a companion in my moments of solitude. 🌒🎼\nLATIN : Esta canción es una compañía en mis momentos de soledad. 🌒🎼",
+                "It's rare to find a song that expresses sadness so genuinely. 😔🎵\nLATIN : Es raro encontrar una canción que exprese la tristeza tan genuinamente. 😔🎵",
+                "The raw emotion in this song is palpable and moving. 🌊🎶\nLATIN : La emoción cruda en esta canción es palpable y conmovedora. 🌊🎶",
+                "This track is the voice of a shattered heart. 💔🎵\nLATIN : Este tema es la voz de un corazón destrozado. 💔🎵",
+                "A hauntingly poignant tune that stirs deep emotions. 🥀🎶\nLATIN : Una melodía conmovedora que agita emociones profundas. 🥀🎶",
+                "Listening to this, I feel a deep connection to my own grief. 😢🎵\nLATIN : Al escuchar esto, siento una conexión profunda con mi propio dolor. 😢🎵",
+                "A song that expresses the pain of loss like no other. 💔🎶\nLATIN : Una canción que expresa el dolor de la pérdida como ninguna otra. 💔🎶",
+                "So melancholic, yet I can't stop listening to it. 🎧😔\nLATIN : Tan melancólica, sin embargo, no puedo dejar de escucharla. 🎧😔",
+                "This song manages to beautifully articulate unspoken sadness. 😢🎵\nLATIN : Esta canción logra articular hermosamente la tristeza no expresada. 😢🎵",
+            ],
+            'chill': [
+                "Perfect chill vibes, just what I needed! 😌🎶\nLATIN : Vibras perfectas de relajación, justo lo que necesitaba. 😌🎶",
+                "So relaxing and soothing, love this track! 🌿💖\nLATIN : Tan relajante y calmante, ¡amo esta pista! 🌿💖",
+                "The ultimate song for a chill-out session. 🎵😌\nLATIN : La canción definitiva para una sesión de relax. 🎵😌",
+                "This is my go-to song for unwinding after a long day. 🌅🎶\nLATIN : Esta es mi canción para relajarme después de un largo día. 🌅🎶",
+                "This laid-back vibe is perfect for unwinding after a long day. 🍃😴\nLATIN : Esta atmósfera relajada es perfecta para descansar después de un día largo. 🍃😴",
+                "I feel like I'm floating on a cloud when I listen to this. ☁️🎶\nLATIN : Siento que estoy flotando en una nube cuando escucho esto. ☁️🎶",
+                "Chill vibes all the way – ideal for a lazy Sunday afternoon. 🌞😌\nLATIN : Vibras relajadas todo el camino, ideal para una tarde perezosa de domingo. 🌞😌",
+                "A soothing melody that melts away stress and tension. 🎵💆‍♂️\nLATIN : Una melodía relajante que disipa el estrés y la tensión. 🎵💆‍♂️",
+                "Transported to a state of tranquility with this track. 🌌😌\nLATIN : Transportado a un estado de tranquilidad con esta canción. 🌌😌",
+                "Smooth beats and calming rhythms – the ultimate relaxation. 🎶🌊\nLATIN : Beats suaves y ritmos calmantes, la máxima relajación. 🎶🌊",
+                "Close your eyes, listen, and let the chill take over. 🧘‍♀️🎵\nLATIN : Cierra los ojos, escucha y deja que la tranquilidad se apodere. 🧘‍♀️🎵",
+                "This song creates a peaceful atmosphere wherever I am. 🏡🌿\nLATIN : Esta canción crea una atmósfera pacífica donde sea que esté. 🏡🌿",
+                "Perfect background music for a chill and cozy evening. 🌙🎶\nLATIN : Música de fondo perfecta para una noche relajada y acogedora. 🌙🎶",
+                "The mellow tones of this track are like a gentle breeze. 🍃🎵\nLATIN : Los tonos suaves de esta canción son como una brisa suave. 🍃🎵",
+                "Chillaxing to the max with this calming masterpiece. 🛀😌\nLATIN : Relajándome al máximo con esta obra maestra calmante. 🛀😌",
+                "I could listen to this on repeat for hours – so chill! 🔁🎶\nLATIN : Podría escuchar esto en repetición durante horas, tan relajante. 🔁🎶",
+                "Captures the essence of serenity and calmness beautifully. 🌸😌\nLATIN : Captura la esencia de la serenidad y la calma de manera hermosa. 🌸😌",
+                "A musical journey that puts my mind at ease. 🚀🎶\nLATIN : Un viaje musical que tranquiliza mi mente. 🚀🎶",
+                "Chill factor through the roof – pure relaxation. 🌬️😌\nLATIN : El factor de relajación está por las nubes, pura tranquilidad. 🌬️😌",
+                "Listening to this feels like a peaceful escape. 🌄🎵\nLATIN : Escuchar esto se siente como un escape pacífico. 🌄🎵",
+                "The perfect soundtrack for moments of quiet contemplation. 🤔🎶\nLATIN : La banda sonora perfecta para momentos de contemplación tranquila. 🤔🎶",
+                "Chill beats and easygoing melodies – a perfect combo. 🎵😌\nLATIN : Beats relajados y melodías relajantes, una combinación perfecta. 🎵😌",
+                "A laid-back groove that instantly lifts my spirits. 🕺🎶\nLATIN : Un ritmo relajado que levanta instantáneamente mis ánimos. 🕺🎶",
+                "Chill mode activated – this track is a chill-out anthem. 🎧😌\nLATIN : Modo relajado activado, esta canción es un himno para relajarse. 🎧😌",
+            ],
+            
+        };
+    
+        const commentsByCategory = {
+            'channelPromotion': [
+                "Don't forget to follow us on YouTube for more amazing tracks!",
+                "Subscribe to our channel for a daily dose of musical bliss.",
+                "Join our music community on YouTube and stay updated with the latest hits!",
+                "Follow us on social media for exclusive content and updates."
+            ],
+            'spotifyMarketing': [
+                "Check out our playlist on Spotify for endless hours of incredible music. link👉: https://spti.fi/Auranetwork",
+                "Follow us on Spotify to discover new songs and artists. link👉: https://spti.fi/Auranetwork",
+                "Create the perfect mood with our Spotify playlists. Follow us now! link👉: https://spti.fi/Auranetwork",
+                "Enhance your music experience on Spotify by following our curated playlists. link👉: https://spti.fi/Auranetwork "
+            ],
+            'questions': [
+                "Do you believe having one true love?\nLATIN : ¿Crees en tener un verdadero amor?",
+                "Do you say you are fine even if you aren’t?\nLATIN : ¿Dices que estás bien incluso si no lo estás?",
+                "Are you feeling good right now?\nLATIN : ¿Te sientes bien en este momento?",
+                "what do you want back?\nLATIN : ¿Qué es lo que quieres de vuelta?",
+                "Do you like looking back at old photos?\nLATIN : ¿Te gusta mirar fotos antiguas?",
+                "Do you like helping others?\nLATIN : ¿Te gusta ayudar a los demás?",
+                "Do you have a favorite color?\nLATIN : ¿Tienes un color favorito?",
+                "What's your favorite food?\nLATIN : ¿Cuál es tu comida favorita?",
+                "Do you enjoy reading books?\nLATIN : ¿Disfrutas leyendo libros?",
+                "Are you a morning or night person?\nLATIN : ¿Eres una persona de la mañana o de la noche?",
+                "Do you like pets? What kind?\nLATIN : ¿Te gustan las mascotas? ¿Cuál(es)?",
+                "What's your favorite hobby?\nLATIN : ¿Cuál es tu hobby favorito?",
+                "Do you like to travel?\nLATIN : ¿Te gusta viajar?",
+                "What's your favorite movie?\nLATIN : ¿Cuál es tu película favorita?",
+                "Do you have a favorite song?\nLATIN : ¿Tienes una canción favorita?",
+                "What's your favorite season?\nLATIN : ¿Cuál es tu estación del año favorita?",
+                "Do you play any sports?\nLATIN : ¿Practicas algún deporte?",
+                "Coffee or tea: which do you prefer?\nLATIN : ¿Café o té, cuál prefieres?",
+                "Do you like to cook or bake?\nLATIN : ¿Te gusta cocinar o hornear?",
+                "What's your dream vacation?\nLATIN : ¿Cuál es tu destino de vacaciones soñado?",
+                "Do you have a favorite ice cream flavor?\nLATIN : ¿Tienes un sabor de helado favorito?",
+                "Are you into video games?\nLATIN : ¿Te gustan los videojuegos?",
+                "Do you have a favorite TV show?\nLATIN : ¿Tienes una serie de televisión favorita?",
+                "Mountains or beach: which do you prefer?\nLATIN : ¿Montañas o playa, cuál prefieres?",
+                "Do you enjoy gardening?\nLATIN : ¿Disfrutas de la jardinería?",
+                "What's your favorite type of music?\nLATIN : ¿Cuál es tu tipo de música favorita?",
+            ],
+            'casual':[
+                "can't think of a better way to start the week than with this banger :)\nLATIN : No puedo pensar en una mejor manera de empezar la semana que con este temazo :)",
+                "i'm gonna be singing along to this all weekend tbh\nLATIN : Voy a cantar esta canción todo el fin de semana, para ser honesto.",
+                "ITS CHILL MONDAY.... addicted to this song\nLATIN : ES UN LUNES RELAJADO... adicto a esta canción",
+                "something a little harder to start your Tuesday, what have you been listening to this week?\nLATIN : Algo un poco más intenso para comenzar tu martes. ¿Qué has estado escuchando esta semana?",
+                "THIS BE HITTING HARD 😈💥\nLATIN : ESTO PEGA FUERTE 😈💥",
+            ],
+        };
+    
+        function getRandomComment(category) {
+            const comments = commentsByCategory[category] || commentsByMood[category];
+            const randomIndex = Math.floor(Math.random() * comments.length);
+            return comments[randomIndex];
+        }
+    
+        function generateComment() {
+            const selectedMood = moodSelector.value;
+            const selectedCategory = categorySelector.value;
+            const generatedComment = getRandomComment(selectedCategory || selectedMood);
+            document.getElementById('generatedComment').textContent = generatedComment;
+        }
+    
+        function copyComment() {
+            const generatedComment = document.getElementById('generatedComment');
+            const textarea = document.createElement('textarea');
+            textarea.value = generatedComment.textContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+            alert('Comment copied to clipboard!');
+        }
+    
+        function onCategoryChange(changedSelectorId, otherSelectorId) {
+            const changedSelector = document.getElementById(changedSelectorId);
+            const otherSelector = document.getElementById(otherSelectorId);
+    
+            if (changedSelector.value) {
+                otherSelector.selectedIndex = 0;
+            }
+        }
+    </script>
+    
+</body>
+</html>
