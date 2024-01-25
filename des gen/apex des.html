@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Description Generator</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap">
+
+  <style>
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(-45deg, #333, #444, #555, #666);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      border: 1px solid #FF7700;
+    }
+
+    h2, h3 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    label {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    input[type="text"],
+    textarea {
+      width: calc(100% - 20px);
+      padding: 10px;
+      font-size: 14px;
+      border: 2px solid #FF7700;
+      margin-bottom: 20px;
+      background-color: #222;
+      color: #fff;
+      box-sizing: border-box;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #FF7700;
+      color: #000;
+      border: 2px solid #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      background-color: #1B1A17;
+      color: #FF7700;
+      border-color: #FF7700;
+    }
+
+    .generated-description {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #1b1a32;
+      border-radius: 8px;
+      box-shadow: 0 0 25px #ECB365;
+    }
+
+    .copy-container {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .copy-button {
+      background-color: #FF7700;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .copy-button:hover {
+      background-color: #FF7700;
+    }
+
+    .copy-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #ffff;
+    }
+
+    img {
+      width: 50px;
+    }
+  </style>
+
+  <script>
+    function copyText() {
+      const textarea = document.getElementById("generatedDescription");
+      textarea.select();
+      document.execCommand("copy");
+      document.getElementById("copyButton").innerText = "Copied!";
+    }
+
+    function replaceText() {
+      const a1 = document.getElementById("a1").value.trim();
+      const n = document.getElementById("n").value.trim();
+      const a2 = document.getElementById("a2").value.trim();
+      const s1 = document.getElementById("s1").value.trim();
+      const s2 = document.getElementById("s2").value.trim();
+      const l = document.getElementById("l").value.trim();
+
+      let description = `${a1.toLowerCase()} - ${n.toLowerCase()}`;
+      if (a2 !== "") {
+        description += ` ft. ${a2.toLowerCase()}`;
+      }
+      description += ` \n\n🎧 Stream & Download: ${l}\n\n⚡Follow ${a1}: ${s1}`;
+      if (s2 !== "") {
+        description += `\n⚡Follow ${a2}: ${s2}`;
+      }
+      description += '\n\n⚡Support/Follow NEODRIFT RECORDS : \nhttps://www.youtube.com/@neodriftrecords\nhttps://www.neodriftrecords.com\nhttps://open.spotify.com/user/31jlwuoyuotmxkojuwvg3v2ddkfa\nhttps://www.soundcloud.com/neodriftrecords\nhttps://www.facebook.com/neodriftrecords\nhttps://www.instagram.com/neodriftrecords ';
+      description += '\n\n🎵 Auranetwork on Spotify: https://spti.fi/Auranetwork\n📸 Follow us on Instagram: https://www.instagram.com/auranetworkofficial/\n👥 Our Discord: https://discord.gg/UkgsTRRH6z';
+      description += '\n\n🎥 Visualizer made in: https://vizzy.io/';
+
+      let hashtags = `#${n.toLowerCase().replace(/\s/g, "")} #${a1.toLowerCase().replace(/\s/g, "")}`;
+      if (a2 !== "") {
+        hashtags += `#${a2.toLowerCase().replace(/\s/g, "")}`;
+      }
+      description += ` \n\n#${n.toLowerCase().replace(/\s/g, "")} #${a1.toLowerCase().replace(/\s/g, "")} #auraapex #phonk #drift #stance #${n.toLowerCase().replace(/\s/g, "")}`;
+      description += '\n\ncomment #apexarmy if you see this';
+      
+      document.getElementById("generatedDescription").innerHTML = description;
+      document.getElementById("copyButton").innerText = "Copy";
+    }
+  </script>
+</head>
+<body>
+    <div class="container">
+        <h2>YouTube Description Generator</h2>
+        <h3>AURA APEX</h3>
+        <label for="a1">🎤 Artist 1:</label>
+        <input type="text" id="a1">
+        <label for="a2">🎤 Artist 2:</label>
+        <input type="text" id="a2">
+        <label for="n">Song Name:</label>
+        <input type="text" id="n">
+        <label for="s1">Social Media 1:(ONLY LINKS PLEASE)</label>
+        <textarea id="s1" rows="4" cols="50"></textarea>
+        <label for="s2">Social Media 2:(ONLY LINKS PLEASE)</label>
+        <textarea id="s2" rows="4" cols="50"></textarea>
+        <label for="l">Link For Streaming Music:</label>
+        <input type="text" id="l">
+        <br>
+        <button onclick="replaceText()">Generate Description</button>
+        <div class="generated-description">
+          <h3>Generated Description</h3>
+          <textarea id="generatedDescription" rows="10" readonly></textarea>
+          <div class="copy-container">
+            <button id="copyButton" onclick="copyText()">Copy</button>
+            <span class="copy-text">(Click the button to copy the description)</span>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
